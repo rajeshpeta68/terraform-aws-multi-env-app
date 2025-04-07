@@ -14,7 +14,8 @@ module "lb" {
   aws_subnet_ids_public = module.vpc.aws_subnet_ids_public
   aws_internet_gateway = module.vpc.aws_internet_gateway
 }
-
+#
+#
 /*
 module "ec2" {
   source = "./modules/ec2"

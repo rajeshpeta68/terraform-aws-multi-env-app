@@ -14,14 +14,11 @@ module "lb" {
   aws_subnet_ids_public = module.vpc.aws_subnet_ids_public
   aws_internet_gateway = module.vpc.aws_internet_gateway
 }
-#
-#
-/*
+
 module "ec2" {
   source = "./modules/ec2"
   aws_security_group_ec2 = module.vpc.aws_security_group_ec2
   aws_subnet_ids_public = module.vpc.aws_subnet_ids_public
-  aws_region = var.aws_region
-  target_group_arns = [module.lb.bny_tg_arn]
+  aws_lb = module.lb.aws_lb
+  target_group_arns = module.lb.aws_lb_target_group_arn
 }
-*/

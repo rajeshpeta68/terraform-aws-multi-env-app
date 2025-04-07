@@ -31,7 +31,7 @@ variable "aws_subnet_ids_public" {
     type = list(string)  
 }
 
-variable "aws_target_group" {
+variable "aws_lb_target_group" {
     type = map(string)
     default = {
         default = "bny-default-tg"
@@ -50,4 +50,12 @@ variable "aws_targer_listener" {
         prod = "bny-prod-listener"
     }  
   
+}
+
+variable "target_group_arns" {
+    type = string
+}
+
+variable "aws_lb" {
+  type = string
 }

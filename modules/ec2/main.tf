@@ -42,15 +42,12 @@ resource "aws_autoscaling_group" "bny-asg" {
     }
     target_group_arns = [var.target_group_arns]
     
-    health_check_type   = "ELB"
-    force_delete         = true
-    wait_for_capacity_timeout = "0"
+    #health_check_type   = "ELB"
+    #force_delete         = true
+    #wait_for_capacity_timeout = "0"
       
 }
-#resource "aws_autoscaling_attachment" "bny-asg-attachment" {
-#    autoscaling_group_name = aws_autoscaling_group.bny-asg.name
-#    lb_target_group_arn   = var.aws_lb_target_group[var.environment]
-#}
+
 resource "aws_lb_listener" "bny-lb-listener" {
     load_balancer_arn = var.aws_lb
     port              = 80

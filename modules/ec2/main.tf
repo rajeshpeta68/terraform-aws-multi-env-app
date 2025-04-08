@@ -26,15 +26,21 @@ resource "aws_launch_template" "bny-launch-template" {
     lifecycle {
         create_before_destroy = true
     }
+    tag_specifications {
+        resource_type = "instance"
+        tags = {
+            Name = "bny-${terraform.workspace}-instance"
+        }
+    }
     tags = {
         Name = "bny-${terraform.workspace}-launch-template"
     }
 }
 
 resource "aws_autoscaling_group" "bny-asg" {
-    desired_capacity     = 1
-    max_size             = 2
-    min_size             = 1
+    desired_capacity     = 2
+    max_size             = 3
+    min_size             = 2
     vpc_zone_identifier = [ var.aws_subnet_ids_public[0], var.aws_subnet_ids_public[1] ]
     launch_template {
         id      = aws_launch_template.bny-launch-template.id

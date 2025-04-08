@@ -47,6 +47,18 @@ resource "aws_subnet" "bnyprivatesubnetA" {
   
 }
 
+resource "aws_subnet" "bnyprivatesubnetB" {
+    cidr_block = "10.0.4.0/24"
+    vpc_id = aws_vpc.bny.id
+
+    tags = {
+      Name = "bny-${terraform.workspace}-privatesubnetB"
+    }
+  
+}
+
+
+
 resource "aws_internet_gateway" "bny-igw" {
     vpc_id = aws_vpc.bny.id
 
@@ -161,4 +173,9 @@ resource "aws_route_table" "bny-public-routeB" {
 resource "aws_route_table_association" "bny-public-routeA-connection" {
   subnet_id      = aws_subnet.bnypublicsubnetA.id
   route_table_id = aws_route_table.bny-public-routeA.id  
+}
+
+resource "aws_route_table_association" "bny-public-routeB-connection" {
+  subnet_id      = aws_subnet.bnypublicsubnetB.id
+  route_table_id = aws_route_table.bny-public-routeB.id  
 }

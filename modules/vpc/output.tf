@@ -14,3 +14,7 @@ output "aws_subnet_ids_public" {
 output "aws_internet_gateway" {
   value = aws_internet_gateway.bny-igw.id   
 }
+output "aws_private_subnet_ids" {
+  value = [aws_subnet.bnyprivatesubnetA.id,aws_subnet.bnyprivatesubnetB.id]
+  
+}

@@ -40,6 +40,7 @@ resource "aws_subnet" "bnypublicsubnetB" {
 resource "aws_subnet" "bnyprivatesubnetA" {
     cidr_block = "10.0.3.0/24"
     vpc_id = aws_vpc.bny.id
+    availability_zone = data.aws_availability_zones.available.names[0]
 
     tags = {
       Name = "bny-${terraform.workspace}-privatesubnetA"
@@ -50,6 +51,7 @@ resource "aws_subnet" "bnyprivatesubnetA" {
 resource "aws_subnet" "bnyprivatesubnetB" {
     cidr_block = "10.0.4.0/24"
     vpc_id = aws_vpc.bny.id
+    availability_zone = data.aws_availability_zones.available.names[1]
 
     tags = {
       Name = "bny-${terraform.workspace}-privatesubnetB"
@@ -168,7 +170,13 @@ resource "aws_security_group" "bnysg-rds" {
     #ipv6_cidr_blocks = []
     security_groups = [aws_security_group.bnysg-ec2.id]
   }
-
+  
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    security_groups = [aws_security_group.bnysg-ec2.id]
+}
   egress {
     description      = "Allow all egress"
     from_port        = 0

@@ -11,8 +11,8 @@ variable "aws_region" {
 variable "instance_class" {
     type = map(string)
     default = {
-        default = ""
-        dev = ""
+        default = "db.t3.micro"
+        dev = "db.t3.micro"
         stage = "db.t3.small"
         prod = "db.t3.medium"
     }  
@@ -20,7 +20,7 @@ variable "instance_class" {
 }
 
 variable "aws_private_subnet_ids" {
-    type = string
+    type = list(string)
   
 }
 

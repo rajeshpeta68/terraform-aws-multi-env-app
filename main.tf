@@ -25,6 +25,6 @@ module "ec2" {
 
 module "rds" {
   source = "./modules/rds"
-  aws_private_subnet_ids = module.vpc.aws_private_subnet_ids[0]
+  aws_private_subnet_ids = [module.vpc.aws_private_subnet_ids[0], module.vpc.aws_private_subnet_ids[1]]
   aws_security_group_rds = module.vpc.aws_security_group_rds
 }

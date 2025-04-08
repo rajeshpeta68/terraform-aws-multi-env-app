@@ -13,7 +13,12 @@ resource "aws_launch_template" "bny-launch-template" {
     vpc_security_group_ids = [ var.aws_security_group_ec2 ]
     image_id = data.aws_ami.latest_amazon_linux.id
     instance_type = var.instance_type[var.environment]
+    
+    user_data = base64encode(templatefile("${path.module}/install.sh.tftpl", {
+  html_content = file("${path.module}/index.html")
+}))
     #key_name = "bny-keypair"
+    /*
     user_data = base64encode(<<EOF
         #!/bin/bash
         sudo yum update -y
@@ -22,7 +27,7 @@ resource "aws_launch_template" "bny-launch-template" {
         sudo systemctl start httpd
         echo "<h1>Hostname: $(hostname)</h1>" | sudo tee -a /var/www/html/index.html
       EOF
-    )
+    ) */
     lifecycle {
         create_before_destroy = true
     }

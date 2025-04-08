@@ -20,8 +20,7 @@ resource "aws_launch_template" "bny-launch-template" {
         sudo yum install -y httpd
         sudo systemctl enable httpd
         sudo systemctl start httpd
-        echo "<h1>Hello from ${terraform.workspace}!</h1>" > /var/www/html/index.html)
-        echo "<h1>Hostname: $(hostname)</h1>" >> /var/www/html/index.html
+        echo "<h1>Hostname: $(hostname)</h1>" | sudo tee -a /var/www/html/index.html
       EOF
     )
     lifecycle {
@@ -48,10 +47,10 @@ resource "aws_autoscaling_group" "bny-asg" {
     wait_for_capacity_timeout = "0"
       
 }
-resource "aws_autoscaling_attachment" "bny-asg-attachment" {
-    autoscaling_group_name = aws_autoscaling_group.bny-asg.name
-    lb_target_group_arn   = var.aws_lb_target_group[var.environment]
-}
+#resource "aws_autoscaling_attachment" "bny-asg-attachment" {
+#    autoscaling_group_name = aws_autoscaling_group.bny-asg.name
+#    lb_target_group_arn   = var.aws_lb_target_group[var.environment]
+#}
 resource "aws_lb_listener" "bny-lb-listener" {
     load_balancer_arn = var.aws_lb
     port              = 80

@@ -18,3 +18,7 @@ output "aws_private_subnet_ids" {
   value = [aws_subnet.bnyprivatesubnetA.id,aws_subnet.bnyprivatesubnetB.id]
   
 }
+
+output "aws_security_group_rds" {
+  value = aws_security_group.bnysg-rds.id  
+}

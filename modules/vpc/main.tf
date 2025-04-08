@@ -145,6 +145,39 @@ resource "aws_security_group" "bnysg-alb" {
   }
 }
 
+resource "aws_security_group" "bnysg-rds" {
+  vpc_id      = aws_vpc.bny.id
+  name        = "bny-${terraform.workspace}-rds-ec2"
+  description = "Security group for EC2 instances"
+
+  ingress {
+    description      = "Allow SSH"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = []
+  }
+
+  ingress {
+    description      = "Allow HTTP"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    #cidr_blocks      = ["0.0.0.0/0"]
+    #ipv6_cidr_blocks = []
+    security_groups = [aws_security_group.bnysg-ec2.id]
+  }
+
+  egress {
+    description      = "Allow all egress"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = []
+  }
+}
 
 resource "aws_route_table" "bny-public-routeA" {
   vpc_id = aws_vpc.bny.id
@@ -179,3 +212,4 @@ resource "aws_route_table_association" "bny-public-routeB-connection" {
   subnet_id      = aws_subnet.bnypublicsubnetB.id
   route_table_id = aws_route_table.bny-public-routeB.id  
 }
+

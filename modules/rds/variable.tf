@@ -20,6 +20,19 @@ variable "instance_class" {
 }
 
 variable "aws_private_subnet_ids" {
-    type = list(string)
+    type = string
   
+}
+
+variable "aws_security_group_rds" {
+    type = string  
+}
+variable "db_username" {
+    type = string
+    default = "admin"  
+}
+
+variable "db_password" {
+    type = string
+    default = "admin1234" 
 }

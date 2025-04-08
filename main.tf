@@ -22,3 +22,9 @@ module "ec2" {
   aws_lb = module.lb.aws_lb
   target_group_arns = module.lb.aws_lb_target_group_arn
 }
+
+module "rds" {
+  source = "./modules/rds"
+  aws_private_subnet_ids = module.vpc.aws_private_subnet_ids[0]
+  aws_security_group_rds = module.vpc.aws_security_group_rds
+}

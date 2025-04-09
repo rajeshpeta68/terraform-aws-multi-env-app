@@ -1,1 +1,51 @@
 <h1>Hostname: $(hostname)</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EC2 Instance Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    .details {
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .details p {
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>EC2 Instance Details</h1>
+  <div class="details">
+    <p><strong>Instance ID:</strong> <span id="instance-id">Loading...</span></p>
+    <p><strong>Instance Type:</strong> <span id="instance-type">Loading...</span></p>
+    <p><strong>Availability Zone:</strong> <span id="az">Loading...</span></p>
+    <p><strong>Public IP:</strong> <span id="public-ip">Loading...</span></p>
+  </div>
+
+  <script>
+    async function fetchMetadata(path) {
+      const response = await fetch(`http://169.254.169.254/latest/meta-data/${path}`);
+      return response.ok ? await response.text() : 'Unavailable';
+    }
+
+    async function loadInstanceDetails() {
+      document.getElementById('instance-id').textContent = await fetchMetadata('instance-id');
+      document.getElementById('instance-type').textContent = await fetchMetadata('instance-type');
+      document.getElementById('az').textContent = await fetchMetadata('placement/availability-zone');
+      document.getElementById('public-ip').textContent = await fetchMetadata('public-ipv4');
+    }
+
+    loadInstanceDetails();
+  </script>
+</body>
+</html>
